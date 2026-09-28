@@ -15,6 +15,7 @@ Entwickelt als sauber orchestrierter, privatsphärefreundlicher Ersatz für die 
 ## ⚡ Highlights & Engineering-Features
 
 * **🔒 100 % Lokal & Offline:** Keine Telemetrie, keine Cloud-APIs, Zero Disk-I/O. Audio-Samples streamen direkt im flüchtigen RAM (16 kHz float32 NumPy Arrays).
+* **🛡️ Fire Team Elite Security Hardening (`core.guard`):** Multi-Vektor-Schutz gegen Model Path Traversal, RAM-Flooding (Audio-DoS Hard-Cap), Float-Poisoning (NaN/Inf Neutralisierung) und Focus-Hijacking (Schutz von Passworttresoren wie KeePass/Bitwarden vor versehentlichem Pasten).
 * **🏎️ Automatische CPU-Topologie-Erkennung:** Intelligente Hardware-Heuristik (`core.hardware`) ermittelt die optimale Thread-Allokation für moderne Intel Hybrid-CPUs (z. B. i5-13500H P-Core Binding) sowie AMD Zen Architekturen – **bis zu 3,3x schneller als Standardkonfigurationen**.
 * **⌨️ Modernes Win32 `SendInput`:** Kein veraltetes `keybd_event` aus den 90ern. Atomare Ctrl+V Tastatureingabe mit exakter Fensterfokus-Wiederherstellung (`core.injector`).
 * **🔔 Taktile Audio-Chimes:** Asynchrone akustische Signale (via nativem `winsound`) beim Start (`F8`), Stopp und erfolgreichen Auto-Paste. Über UI oder Config stummschaltbar.
@@ -52,9 +53,10 @@ whisper_overlay/
 ├── update_whisper.bat          # 1-Click Dependency Updater
 ├── src/
 │   └── whisper_pill/
-│       ├── __init__.py         # Package Metadata & Versioning (2.0.0)
+│       ├── __init__.py         # Package Metadata & Versioning (2.1.0)
 │       ├── __main__.py         # CLI-Parser & Orchestrator
 │       ├── core/
+│       │   ├── guard.py        # Fire Team Security Guard & Focus Shield
 │       │   ├── hardware.py     # CPU-Topologie & P-Core/E-Core Thread-Heuristik
 │       │   ├── engine.py       # CTranslate2 WhisperModel Lifecycle & VAD Gating
 │       │   ├── audio.py        # Non-blocking RAM Audio Streamer (sounddevice)
@@ -65,6 +67,7 @@ whisper_overlay/
 │           ├── theme.py        # Catppuccin Mocha Farbpalette & Styles
 │           └── sounds.py       # Asynchrone Chime-Engine (winsound)
 └── tests/
+    ├── test_fireteam_whisper_audit.py # Multi-Vector Penetration & Stress Suite
     ├── test_hardware.py        # Topologie-Validierung
     ├── test_injector.py        # Ctypes Struct & SendInput Alignment
     └── test_config.py          # Config Serialization & Fallbacks

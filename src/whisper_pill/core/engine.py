@@ -15,6 +15,7 @@ from faster_whisper import WhisperModel
 
 from whisper_pill.core.config import AppConfig
 from whisper_pill.core.hardware import detect_optimal_hardware
+from whisper_pill.core.guard import SecurityGuard
 
 
 @dataclass(frozen=True)
@@ -42,6 +43,9 @@ class WhisperEngine:
         """
         Loads or switches the active Whisper model in RAM using optimal thread allocation.
         """
+        if not SecurityGuard.validate_model_identifier(model_name):
+            raise ValueError(f"Sicherheitsblockade: Modell-Identifier '{model_name}' ist nicht autorisiert oder ungültig!")
+
         if self.current_model_name == model_name and self.model is not None:
             return
 
@@ -63,6 +67,9 @@ class WhisperEngine:
         """
         if self.model is None:
             raise RuntimeError("Model is not loaded. Call load_model() first.")
+
+        # Sanitize audio buffer against NaN/Inf poisoning and DoS duration spikes
+        audio_data = SecurityGuard.sanitize_audio_buffer(audio_data, sample_rate=sample_rate)
 
         if len(audio_data) == 0:
             return TranscriptionResult(

@@ -124,10 +124,22 @@ class TextInjector:
             return False
         return bool(user32.SetForegroundWindow(hwnd))
 
+    @staticmethod
+    def get_window_title(hwnd: int) -> str:
+        """Returns the window title text of the given window handle."""
+        if not hwnd or not user32.IsWindow(hwnd):
+            return ""
+        length = user32.GetWindowTextLengthW(hwnd)
+        if length == 0:
+            return ""
+        buf = ctypes.create_unicode_buffer(length + 1)
+        user32.GetWindowTextW(hwnd, buf, length + 1)
+        return buf.value
+
     @classmethod
     def paste_text(cls, text: str, target_hwnd: int | None = None) -> bool:
         """
-        Copies text to clipboard, restores window focus, and triggers atomic Ctrl+V.
+        Copies text to clipboard, restores window focus, verifies safety, and triggers atomic Ctrl+V.
         """
         if not text:
             return False
@@ -140,6 +152,16 @@ class TextInjector:
             cls.restore_focus(target_hwnd)
             # Brief thread switch interval for Windows message queue
             time.sleep(0.04)
+
+        current_fg = cls.get_foreground_window()
+        current_title = cls.get_window_title(current_fg)
+
+        # Fire Team Elite Security Check: Verify that we are not pasting into an unapproved or hijacked window
+        from whisper_pill.core.guard import SecurityGuard
+        safe, reason = SecurityGuard.verify_paste_safety(target_hwnd, current_fg, current_title)
+        if not safe:
+            print(f"[!] {reason}")
+            return False
 
         # Fire native SendInput
         send_paste_input()

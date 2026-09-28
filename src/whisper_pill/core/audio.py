@@ -30,11 +30,15 @@ class AudioRecorder:
         return self._is_recording
 
     def _audio_callback(self, indata: np.ndarray, frames: int, time_info: dict, status: sd.CallbackFlags) -> None:
-        """Collects microphone chunks directly into RAM."""
+        """Collects microphone chunks directly into RAM with overflow guard."""
         if status:
             pass  # Overflow or underflow handling if needed
         with self._lock:
-            self._frames.append(indata.copy())
+            # 180s @ 16kHz float32 max frame limit
+            # Guard against uncontrolled RAM consumption if dictation is left running
+            max_frames_count = int((180 * self.sample_rate) / frames)
+            if len(self._frames) < max_frames_count:
+                self._frames.append(indata.copy())
 
     def start(self) -> None:
         """Starts real-time microphone capture."""

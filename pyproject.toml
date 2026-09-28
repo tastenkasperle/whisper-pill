@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "whisper-pill"
-version = "2.0.0"
+version = "2.1.0"
 description = "Ultra-fast, zero-cloud local speech-to-text floating HUD for Windows using CTranslate2 int8."
 readme = "README.md"
 requires-python = ">=3.10"
