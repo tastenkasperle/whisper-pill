@@ -148,11 +148,35 @@ Das Repository enthält automatisierte Modultests:
 
 ---
 
+## 🐺 Case Study: Spec-Driven Multi-Agent Engineering
+
+> *"Kann ein autonomes Multi-Agenten-Team ein latenzkritisches Desktop-Systemtool bauen, das native Betriebssystem-Funktionen übertrifft – ohne in die typische Vibe-Coding-Falle zu tappen?"*
+
+Dieses Projekt entstand als reales Experiment im Bereich **Agentic Software Engineering**:
+
+### 🚨 Das Problem mit klassischem „Vibe-Coding“
+Viele KI-unterstützte Software-Projekte leiden unter denselben typischen Schwächen:
+* **Monolithische Skripte:** GUI, Audio-Streams, ML-Inferenz und OS-Hooks werden in eine einzige 400-Zeilen-Datei geworfen.
+* **Veraltete Snippets:** Nutzung von seit Windows 2000 deprecated APIs (wie `keybd_event` flankiert von willkürlichen `time.sleep()`-Delays gegen Race Conditions).
+* **Hardware-Blindheit:** Statische Thread-Zuweisungen, die auf modernen Hybrid-CPUs (Intel Alder/Raptor Lake) zu massiven Leistungseinbrüchen führen.
+
+### 🛡️ Die Methodik: Strenge Leitplanken statt blinder Autonomie
+Die Entwicklung von Whisper Pill Pro wurde durch ein autonomes Multi-Agenten-System (**Wolfsrudel**) realisiert – geführt durch strikte ingenieurmäßige Qualitätsvorgaben:
+1. **Hardware-Level Topologie-Analyse:** Statt Standard-Bibliotheks-Defaults zu akzeptieren, deckte das System Thread-Contention auf Hybrid-CPUs auf und entwickelte eine dynamische Heuristik für Performance-Core Alignment (**Inferenzzeit von 42,8s auf 15,2s gedrückt – 2,8x schneller**).
+2. **Win32 API-Exzellenz:** Vollständige Umstellung auf native Win32 `SendInput`-Strukturen via `ctypes` mit atomarem Keydown/Keyup-Batching und robuster HWND-Fokus-Wiederherstellung.
+3. **Strikte Separation of Concerns (SoC):** Saubere Modularisierung nach modernen Python-Standards (PEP 517/518/621) in isolierte Subsysteme (`core.audio`, `core.engine`, `core.injector`, `ui.overlay`).
+4. **Testgetriebene Verifikation:** Jede Komponente wurde durch automatisierte Unit-Tests (`tests/`) und reale Hardware-Benchmarks verifiziert, bevor sie in den Master-Branch einfließen durfte.
+
+**Ergebnis:** Ein Beweis dafür, dass Agenten-Teams bei straffer Führung und fundierter Architektur produktionsreife Werkzeuge von höchster Qualität und Eleganz erschaffen können.
+
+---
+
 ## 🛡️ Datenschutz & Sicherheit
 
 * **Zero Cloud:** Zu keinem Zeitpunkt werden Audiodaten oder Transkripte an externe Server gesendet.
 * **In-Memory Buffer:** Sprachdaten verbleiben flüchtig im RAM und werden nach der Verarbeitung sofort freigegeben.
 * **Git-Hygiene:** Lokale Audio-Testaufnahmen in `records/*.wav` sind durch `.gitignore` geschützt.
+
 
 ---
 

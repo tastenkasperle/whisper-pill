@@ -35,3 +35,7 @@ src/*.egg-info/
 # Local User Config
 config.json
 
+# Checkpoints & Agent Savegames (Keep Public Repo Clean)
+*CHECKPOINT*.md
+*SAVEGAME*.md
+docs/checkpoints/
