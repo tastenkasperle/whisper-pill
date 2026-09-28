@@ -38,8 +38,8 @@
 ---
 
 ## 📁 Wichtige Artefakte
-- Launcher: [start_whisper_pill.bat](file:///C:/Users/UserS2025/Desktop/Development/whisper_overlay/start_whisper_pill.bat)
-- Main Script: [whisper_pill.py](file:///C:/Users/UserS2025/Desktop/Development/whisper_overlay/whisper_pill.py)
-- Benchmark-Report: [BENCHMARK_REPORT_2026-09-28.md](file:///C:/Users/UserS2025/Desktop/Development/whisper_overlay/BENCHMARK_REPORT_2026-09-28.md)
-- Benchmark Runner: [run_final_benchmark.py](file:///C:/Users/UserS2025/Desktop/Development/whisper_overlay/run_final_benchmark.py)
+- Launcher: [run.py](../../run.py) / [start_whisper_pill.bat](../../start_whisper_pill.bat)
+- Core Package: [src/whisper_pill](../../src/whisper_pill)
+- Benchmark-Report: [BENCHMARK_REPORT_2026-09-28.md](../BENCHMARK_REPORT_2026-09-28.md)
+- Benchmark Suite: [benchmarks/run_final_benchmark.py](../../benchmarks/run_final_benchmark.py)
 - Autostart-Verknüpfung: `WhisperPill.lnk` in `shell:startup`

@@ -3,8 +3,9 @@ import os
 from datetime import datetime
 from faster_whisper import WhisperModel
 
-AUDIO_FILE = os.path.join(os.path.dirname(__file__), "records", "aufnahme_20260926_121311.wav")
-REPORT_FILE = os.path.join(os.path.dirname(__file__), "BENCHMARK_REPORT_2026-09-28.md")
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+AUDIO_FILE = os.path.join(PROJECT_ROOT, "records", "aufnahme_20260926_121311.wav")
+REPORT_FILE = os.path.join(PROJECT_ROOT, "docs", "BENCHMARK_REPORT_2026-09-28.md")
 
 def run_suite():
     print("[*] Wolfsrudel Final Verification Benchmark (Whisper Pill Pro 2.0)...")
