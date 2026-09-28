@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-    { name = "Chris", email = "dev@local.box" }
+    { name = "Christopher Hailfinger (@tastenkasperle)", email = "chailfinger@gmail.com" }
 ]
 keywords = [
     "whisper",
