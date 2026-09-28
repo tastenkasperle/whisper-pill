@@ -49,8 +49,8 @@ dependencies = [
 whisper-pill = "whisper_pill.__main__:main"
 
 [project.urls]
-"Homepage" = "https://github.com/username/whisper_overlay"
-"Bug Tracker" = "https://github.com/username/whisper_overlay/issues"
+"Homepage" = "https://github.com/tastenkasperle/whisper-pill"
+"Bug Tracker" = "https://github.com/tastenkasperle/whisper-pill/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

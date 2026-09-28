@@ -92,8 +92,8 @@ whisper_overlay/
 
 ### 1. Klonen & Virtual Environment einrichten
 ```powershell
-git clone https://github.com/username/whisper_overlay.git
-cd whisper_overlay
+git clone https://github.com/tastenkasperle/whisper-pill.git
+cd whisper-pill
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -e .
