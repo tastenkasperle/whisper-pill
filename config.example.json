@@ -1,0 +1,34 @@
+{
+    "default_model_tier": "High",
+    "hotkey": "F8",
+    "sound_enabled": true,
+    "cpu_threads_override": null,
+    "language": "de",
+    "beam_size": 1,
+    "vad_filter": true,
+    "repetition_penalty": 1.15,
+    "no_repeat_ngram_size": 3,
+    "initial_prompt": "Transkribiere akkurat auf Deutsch mit korrekter Zeichensetzung und Fachbegriffen.",
+    "window_x": null,
+    "window_y": 30,
+    "quips": [
+        "🤔 Denke über die Eingabe nach...",
+        "🧐 Was redet der eigentlich?!",
+        "📚 Gibt es dieses Wort überhaupt?",
+        "☕ Dekodiere Gehirnwellen...",
+        "🧠 Neuronen feuern auf Hochtouren...",
+        "🔍 Suche im Duden nach Ausreden...",
+        "🤖 Übersetze menschliches Kauderwelsch...",
+        "🧬 Verhandle mit der KI-Logik...",
+        "🎧 Entwirre den Satzbau...",
+        "🧹 Kehre Sprachbaustellen zusammen...",
+        "🧙‍♂️ Wirke Transkriptionszauber...",
+        "⏳ Sortiere Kommata und Punkte..."
+    ],
+    "model_presets": {
+        "High": "large-v3-turbo",
+        "Medium": "medium",
+        "Low": "small",
+        "Very Low": "tiny"
+    }
+}

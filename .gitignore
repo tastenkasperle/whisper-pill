@@ -25,3 +25,13 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+
+# Packaging & Build
+build/
+dist/
+*.egg-info/
+src/*.egg-info/
+
+# Local User Config
+config.json
+

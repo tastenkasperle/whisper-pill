@@ -1,27 +1,30 @@
-# 🎙️ Whisper Pill Pro 2.0 (Wolfsrudel Edition)
+# 🎙️ Whisper Pill Pro 2.0 (Engine Edition)
 
 [![Platform: Windows](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D6.svg?logo=windows)](https://microsoft.com)
-[![Python: 3.12](https://img.shields.io/badge/Python-3.12-3776AB.svg?logo=python)](https://python.org)
+[![Python: 3.10+](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-3776AB.svg?logo=python)](https://python.org)
 [![Engine: faster--whisper](https://img.shields.io/badge/Engine-faster--whisper%20(CTranslate2)-FF6F00.svg)](https://github.com/SYSTRAN/faster-whisper)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Architecture: Modular src/](https://img.shields.io/badge/Architecture-Modular%20Package-94E2D5.svg)](#-software-architektur--paketstruktur)
 [![Theme: Catppuccin Mocha](https://img.shields.io/badge/Theme-Catppuccin%20Mocha-F5C2E7.svg)](https://github.com/catppuccin/catppuccin)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-Ein ultra-schnelles, portables und 100 % lokales **Speech-to-Text Floating-Overlay** für Windows. Entwickelt als robuster, privatsphärefreundlicher Ersatz für die unzuverlässige Windows-Diktatfunktion (`Win+H`).
+Ein ultra-schnelles, modulares und 100 % lokales **Speech-to-Text Floating-Overlay** für Windows.  
+Entwickelt als sauber orchestrierter, privatsphärefreundlicher Ersatz für die unzuverlässige Windows-Diktatfunktion (`Win+H`).
 
 ---
 
-## ⚡ Highlights & Neuheiten in Version 2.0
+## ⚡ Highlights & Engineering-Features
 
-* **🔒 100 % Lokal & Offline:** Keine Telemetrie, keine Cloud-APIs, vollständige Privatsphäre. Audio-Daten werden rein im Arbeitsspeicher gestreamt (Zero-Disk I/O).
-* **🏎️ P-Core Hybrid Tuning:** Speziell optimiert für moderne Intel-CPUs (wie i5-13500H). Nutzt 12 dedizierte Performance-Threads ohne Cache-Thrashing – **bis zu 3,3x schneller als Standard-Konfigurationen**.
-* **🔔 Taktile Audio-Chimes:** Dezente akustische Signale (via nativem `winsound`) beim Start (`F8`), Stopp und erfolgreichen Auto-Paste. Über UI stummschaltbar.
-* **✨ Visuelle Neon-Reflektion & Ladebalken:** Dynamischer Ladebalken beim Modellwechsel und sanfter Smaragd-Lichtbogen beim Erreichen der Einsatzbereitschaft.
+* **🔒 100 % Lokal & Offline:** Keine Telemetrie, keine Cloud-APIs, Zero Disk-I/O. Audio-Samples streamen direkt im flüchtigen RAM (16 kHz float32 NumPy Arrays).
+* **🏎️ Automatische CPU-Topologie-Erkennung:** Intelligente Hardware-Heuristik (`core.hardware`) ermittelt die optimale Thread-Allokation für moderne Intel Hybrid-CPUs (z. B. i5-13500H P-Core Binding) sowie AMD Zen Architekturen – **bis zu 3,3x schneller als Standardkonfigurationen**.
+* **⌨️ Modernes Win32 `SendInput`:** Kein veraltetes `keybd_event` aus den 90ern. Atomare Ctrl+V Tastatureingabe mit exakter Fensterfokus-Wiederherstellung (`core.injector`).
+* **🔔 Taktile Audio-Chimes:** Asynchrone akustische Signale (via nativem `winsound`) beim Start (`F8`), Stopp und erfolgreichen Auto-Paste. Über UI oder Config stummschaltbar.
+* **✨ Catppuccin Mocha HUD:** Schwebendes, Always-on-Top Floating-Overlay mit dynamischem Progress-Indicator, Sims-inspirierten Status-Quips und fließendem Smaragd-Lichtsheen bei Einsatzbereitschaft.
 * **🎯 4-Stufen Modell-Palette:**
   * **`Very Low` (`tiny`):** 1,1 Sekunden Rechenzeit (~32x Echtzeit) – für instant Einzeiler und Terminal-Prompts.
   * **`Low` (`small`):** 4,8 Sekunden Rechenzeit (~7,3x Echtzeit) – das tägliche Alltags-Arbeitspferd.
   * **`Medium` (`medium`):** 14,1 Sekunden – hohe grammatikalische Ausdauer.
   * **`High` (`large-v3-turbo`):** 15,2 Sekunden – **100 % Wortgenauigkeit**, erkennt Fachbegriffe fehlerfrei.
-* **🖱️ Globaler Hotkey & Auto-Paste:** Ein Druck auf `[F8]` startet die Aufnahme; erneuter Druck transkribiert und fügt den Text automatisch via `Strg+V` ins aktive Zielfenster ein.
+* **🧹 Sauberes Lifecycle-Management:** Vollständige Entkopplung (`WM_DELETE_WINDOW`), saubere Freigabe globaler Tastatur-Hooks und kein Zombie-Thread-Verhalten.
 
 ---
 
@@ -36,62 +39,120 @@ Ein ultra-schnelles, portables und 100 % lokales **Speech-to-Text Floating-Overl
 
 ---
 
-## 🏗️ Architektur & Datenfluss
+## 🏛️ Software-Architektur & Paketstruktur
+
+Die Codebase folgt strikter **Separation of Concerns (SoC)** nach modernsten Python-Standards:
 
 ```text
-[ Micro / Audio ] ──( 16 kHz RAM Stream )──> [ Silero VAD Filter ]
-                                                    │
-                                                    ▼
-[ CTranslate2 / int8 ] <──( 12 P-Core Threads )── [ faster-whisper ]
+whisper_overlay/
+├── pyproject.toml              # PEP 517/518/621 Build-Konfiguration & CLI-Entrypoint
+├── config.example.json         # Konfigurations-Template (Hotkeys, Quips, VAD-Filter)
+├── run.py                      # Standalone Direct Launcher
+├── start_whisper_pill.bat      # 1-Click Starter
+├── update_whisper.bat          # 1-Click Dependency Updater
+├── src/
+│   └── whisper_pill/
+│       ├── __init__.py         # Package Metadata & Versioning (2.0.0)
+│       ├── __main__.py         # CLI-Parser & Orchestrator
+│       ├── core/
+│       │   ├── hardware.py     # CPU-Topologie & P-Core/E-Core Thread-Heuristik
+│       │   ├── engine.py       # CTranslate2 WhisperModel Lifecycle & VAD Gating
+│       │   ├── audio.py        # Non-blocking RAM Audio Streamer (sounddevice)
+│       │   ├── injector.py     # Win32 SendInput (ctypes standard) & Focus Restore
+│       │   └── config.py       # Dataclass Configuration & JSON Serializer
+│       └── ui/
+│           ├── overlay.py      # Tkinter Floating HUD Controller & State-Machine
+│           ├── theme.py        # Catppuccin Mocha Farbpalette & Styles
+│           └── sounds.py       # Asynchrone Chime-Engine (winsound)
+└── tests/
+    ├── test_hardware.py        # Topologie-Validierung
+    ├── test_injector.py        # Ctypes Struct & SendInput Alignment
+    └── test_config.py          # Config Serialization & Fallbacks
+```
+
+### Datenfluss
+
+```text
+[ Micro / Audio ] ──( 16 kHz Float32 RAM Stream )──> [ Silero VAD Filter ]
+                                                              │
+                                                              ▼
+[ CTranslate2 / int8 ] <──( Topologie-optimierte Threads )── [ faster-whisper ]
         │
         ├──> [ Text Postprocessing & Repetition Guard ]
-        └──> [ Pyperclip Clipboard ] ──> [ Win32 Keybd Event (Ctrl+V) ]
+        └──> [ Pyperclip Clipboard ] ──> [ Win32 SendInput (Ctrl+V) ]
 ```
 
 ---
 
-## 🚀 Schnellstart & Installation
+## 🚀 Installation & Schnellstart
 
 ### Voraussetzungen
 * Windows 10 oder Windows 11 (Standardnutzer ohne Admin-Rechte ausreichend!)
 * Python 3.10 oder neuer
 
-### 1. Repository klonen & Virtual Environment erstellen
+### 1. Klonen & Virtual Environment einrichten
 ```powershell
 git clone https://github.com/username/whisper_overlay.git
 cd whisper_overlay
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ### 2. Starten
-Starte die Anwendung einfach per Doppelklick auf:
-```text
+Entweder direkt per Python oder über den 1-Click-Starter:
+```powershell
+# Via Script-Launcher:
+python run.py
+
+# Oder als CLI-Befehl:
+whisper-pill --help
+
+# Oder Doppelklick auf:
 start_whisper_pill.bat
 ```
 
 ### 3. Autostart einrichten (Optional)
-Erstelle eine Verknüpfung von `start_whisper_pill.bat` in deinem Windows-Autostart-Ordner:
-`Drücke Win+R -> tippe shell:startup -> Verknüpfung hier ablegen`.
+Erstelle eine Verknüpfung von `start_whisper_pill.bat` in deinem Windows-Autostart-Ordner:  
+`Drücke Win+R -> tippe shell:startup -> Verknüpfung ablegen`.
 
 ---
 
-## 🎮 Steuerung & Bedienung
+## ⚙️ Konfiguration (`config.json`)
 
-1. Klicke in ein beliebiges Textfeld (Terminal, VS Code, Browser, Notizen).
-2. Drücke **`F8`** (akustischer Start-Klick ertönt, Button leuchtet rot).
-3. Sprich deinen Text ein.
-4. Drücke erneut **`F8`** (Bestätigungston ertönt, Lade-Animation läuft).
-5. Nach Sekundenbruchteilen ertönt die Erfolgs-Fanfare und der Text steht exakt an der Cursor-Position!
+Kopiere `config.example.json` zu `config.json`, um Einstellungen dauerhaft anzupassen:
+
+```json
+{
+    "default_model_tier": "High",
+    "hotkey": "F8",
+    "sound_enabled": true,
+    "cpu_threads_override": null,
+    "language": "de",
+    "vad_filter": true,
+    "repetition_penalty": 1.15
+}
+```
+
+---
+
+## 🧪 Tests ausführen
+
+Das Repository enthält automatisierte Modultests:
+
+```powershell
+.\.venv\Scripts\python.exe tests/test_hardware.py
+.\.venv\Scripts\python.exe tests/test_config.py
+.\.venv\Scripts\python.exe tests/test_injector.py
+```
 
 ---
 
 ## 🛡️ Datenschutz & Sicherheit
 
-* **Zero Cloud:** Zu keinem Zeitpunkt werden Audio-Samples oder Texte an externe Server übertragen.
-* **In-Memory Streaming:** Temporäre Sprachdaten verbleiben im flüchtigen RAM und werden nach der Transkription verworfen.
-* **Saubere Git-Hygiene:** Private Audio-Dateien im `records/`-Ordner sind per `.gitignore` standardmäßig von Commits ausgeschlossen.
+* **Zero Cloud:** Zu keinem Zeitpunkt werden Audiodaten oder Transkripte an externe Server gesendet.
+* **In-Memory Buffer:** Sprachdaten verbleiben flüchtig im RAM und werden nach der Verarbeitung sofort freigegeben.
+* **Git-Hygiene:** Lokale Audio-Testaufnahmen in `records/*.wav` sind durch `.gitignore` geschützt.
 
 ---
 

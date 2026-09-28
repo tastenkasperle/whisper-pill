@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "whisper-pill"
+version = "2.0.0"
+description = "Ultra-fast, zero-cloud local speech-to-text floating HUD for Windows using CTranslate2 int8."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Chris", email = "dev@local.box" }
+]
+keywords = [
+    "whisper",
+    "speech-to-text",
+    "stt",
+    "windows",
+    "ctranslate2",
+    "faster-whisper",
+    "catppuccin",
+    "overlay",
+    "dictation"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Win32 (MS Windows)",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Adaptive Technologies"
+]
+dependencies = [
+    "faster-whisper>=1.0.0",
+    "sounddevice>=0.4.6",
+    "numpy>=1.24.0",
+    "pyperclip>=1.8.2",
+    "keyboard>=0.13.5"
+]
+
+[project.scripts]
+whisper-pill = "whisper_pill.__main__:main"
+
+[project.urls]
+"Homepage" = "https://github.com/username/whisper_overlay"
+"Bug Tracker" = "https://github.com/username/whisper_overlay/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
