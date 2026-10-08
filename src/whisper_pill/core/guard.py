@@ -40,8 +40,8 @@ class SecurityGuard:
     }
 
     # Maximum audio recording duration (in seconds) to prevent RAM exhaustion (DoS)
-    # 180 seconds @ 16 kHz 32-bit float = ~11.5 MB RAM cap
-    MAX_RECORDING_SECONDS: float = 180.0
+    # 900 seconds (15 minutes) @ 16 kHz 32-bit float = ~57.6 MB RAM cap
+    MAX_RECORDING_SECONDS: float = 900.0
 
     # Disallowed processes / window titles where automatic pasting is blocked for safety
     SENSITIVE_TARGET_TITLES: Set[str] = {

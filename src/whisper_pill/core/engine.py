@@ -89,9 +89,15 @@ class WhisperEngine:
             beam_size=self.config.beam_size,
             temperature=0.0,
             vad_filter=self.config.vad_filter,
-            repetition_penalty=self.config.repetition_penalty,
-            no_repeat_ngram_size=self.config.no_repeat_ngram_size,
-            initial_prompt=self.config.initial_prompt
+            vad_parameters=dict(
+                min_silence_duration_ms=800,
+                speech_pad_ms=500
+            ) if self.config.vad_filter else None,
+            repetition_penalty=1.1,
+            no_repeat_ngram_size=3,
+            initial_prompt=self.config.initial_prompt,
+            condition_on_previous_text=False,
+            compression_ratio_threshold=2.4
         )
 
         full_text = " ".join([seg.text.strip() for seg in segments]).strip()

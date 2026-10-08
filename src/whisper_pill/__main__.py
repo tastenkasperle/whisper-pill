@@ -7,8 +7,19 @@ Usage:
 
 from __future__ import annotations
 import argparse
+import os
 import sys
 import tkinter as tk
+
+if sys.stdout is None:
+    sys.stdout = open(os.devnull, "w", encoding="utf-8")
+elif hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+if sys.stderr is None:
+    sys.stderr = open(os.devnull, "w", encoding="utf-8")
+elif hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 from whisper_pill.core.config import AppConfig
 from whisper_pill.core.hardware import detect_optimal_hardware

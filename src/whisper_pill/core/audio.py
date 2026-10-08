@@ -11,6 +11,8 @@ from typing import Optional, List
 import numpy as np
 import sounddevice as sd
 
+from whisper_pill.core.guard import SecurityGuard
+
 
 class AudioRecorder:
     """
@@ -34,9 +36,9 @@ class AudioRecorder:
         if status:
             pass  # Overflow or underflow handling if needed
         with self._lock:
-            # 180s @ 16kHz float32 max frame limit
+            # Dynamic max frame limit from SecurityGuard (900s / 15 min @ 16kHz float32)
             # Guard against uncontrolled RAM consumption if dictation is left running
-            max_frames_count = int((180 * self.sample_rate) / frames)
+            max_frames_count = int((SecurityGuard.MAX_RECORDING_SECONDS * self.sample_rate) / frames)
             if len(self._frames) < max_frames_count:
                 self._frames.append(indata.copy())
 

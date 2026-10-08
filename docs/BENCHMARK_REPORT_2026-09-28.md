@@ -1,6 +1,6 @@
 # 📊 Whisper Pill Pro 2.0 - Finaler Benchmark-Report (Wolfsrudel Edition)
 
-**Datum:** 28.09.2026, 09:55:00  
+**Datum:** 07.10.2026, 06:44:16  
 **System:** Viona Laptop (Intel Core i5-13500H, 14 Kerne / 20 Threads, Windows 11 Standard-Nutzer, 32 GB RAM)  
 **Tuning:** 12 Threads (P-Core Alignment), 1 Worker (Cache-Thrashing behoben), Audio Chimes (winsound)  
 **Test-Audiodatei:** `C:\Users\UserS2025\Desktop\Development\whisper_overlay\records\aufnahme_20260926_121311.wav` (34,9 Sekunden echte Sprache)
@@ -11,25 +11,25 @@
 
 | Modell | Vorher (Lag-Messung 09:45) | **NACHHER (Wolfsrudel 2.0)** | Beschleunigung | Status / Empfehlung |
 | :--- | :---: | :---: | :---: | :--- |
-| **`⚡ Tiny`** | *Nicht vorhanden* | **1.1s** (31.73x) | 🚀 **Neu** | Instant-Diktat (Kurzbefehle & Terminal) |
-| **`🚀 Small`** | 15,75s (2,2x) | **4.78s** (7.3x) | ⚡ **+229 % schneller** | **Empfohlener Alltags-Modus** |
-| **`🎯 Medium`** | 42,90s (0,8x) | **14.14s** (2.47x) | ⚡ **+203 % schneller** | Solide Präzision |
-| **`⚡ Large-v3-Turbo`** | 42,76s (0,8x) | **15.18s** (2.3x) | ⚡ **+182 % schneller** | **100 % Wortgenauigkeit (Flaggschiff)** |
+| **`⚡ Tiny`** | *Nicht vorhanden* | **3.24s** (10.77x) | 🚀 **Neu** | Instant-Diktat (Kurzbefehle & Terminal) |
+| **`🚀 Small`** | 15,75s (2,2x) | **12.7s** (2.75x) | ⚡ **+24 % schneller** | **Empfohlener Alltags-Modus** |
+| **`🎯 Medium`** | 42,90s (0,8x) | **32.49s** (1.07x) | ⚡ **+32 % schneller** | Solide Präzision |
+| **`⚡ Large-v3-Turbo`** | 42,76s (0,8x) | **27.79s** (1.26x) | ⚡ **+54 % schneller** | **100 % Wortgenauigkeit (Flaggschiff)** |
 
 ---
 
 ## 📝 Transkriptions-Ergebnisse im Wortlaut-Vergleich
 
-### Modell: `tiny` (31.73x Echtzeit, 1.1s)
+### Modell: `tiny` (10.77x Echtzeit, 3.24s)
 > "Der Umweg über die Aufnahme ab. Der Frustpreistework-Round für extrem lange Terminable Pronds, nutze die Googlere Korderab oder eine vergleichbare gute Audio und TZP auf deinem Xiaomi Die hat kein Abruchlimm mit Transkribiert in Echtzeit mit absoluter High End-Precisionen auf dem Gerät und erlaubt das Dio den fertigen Textblock einfach mit einem Blick zu kopieren und den Jemenai 1-Fügen. Vorteil, du kannst freirin nachdenken korrigieren und hast am Ende keine Zestückung mit Niesätze"
 
-### Modell: `small` (7.3x Echtzeit, 4.78s)
+### Modell: `small` (2.75x Echtzeit, 12.7s)
 > "Der Umweg über die Aufnahmeapp. Der frustfreiste Workaround für extrem lange Gemini Prompts nützt die Google Recorder App oder eine vergleichbare gute Audio-Nautiz App auf deinem Xiumi Die hat kein Abbruch limit, transkribiert in Echtzeit mit absoluter High End Präzisionen auf dem Gerät und erlaubt das Stear den fertigen Textblock einfach mit einem Klick zu kopieren und den Gemini einzufügen. Vorteil, du kannst freier reden Nachdenken korrigieren und hast am Ende keine zerstückelten Minisätze"
 
-### Modell: `medium` (2.47x Echtzeit, 14.14s)
+### Modell: `medium` (1.07x Echtzeit, 32.49s)
 > "Der Umweg über die Aufnahme-App. Der frustfreiste Workaround für extrem lange Gemini Prompts nutzt die Google Rekorder App oder eine vergleichbare gute Audio Notiz App auf deinem Xiaomi. Die hat kein Abbruchlimit, transkribiert in Echtzeit mit absoluter High End Präzisionen auf dem Gerät und erlaubt es dir den fertigen Textblock einfach mit einem Klick zu kopieren und den Gemini einsfügen. Vorteil? Du kannst frei reden, nachdenken, korrigieren und hast am Ende keine zerstückelten Minisätze."
 
-### Modell: `large-v3-turbo` (2.3x Echtzeit, 15.18s)
+### Modell: `large-v3-turbo` (1.26x Echtzeit, 27.79s)
 > "Der Umweg über die Aufnahme-App. Der frustfreiste Workaround für extrem lange Gemini Prompts nützt die Google Recorder App oder eine vergleichbare gute Audio Notiz App auf deinem Xiaomi. Die hat kein Abbruchlimit, transkribiert in Echtzeit mit absoluter High End Präzision auf dem Gerät und erlaubt es dir den fertigen Textblock einfach mit einem Klick zu kopieren und in Gemini einzufügen. Vorteil, du kannst frei reden, nachdenken, korrigieren und hast am Ende keine zerstückelten Minisätze."
 
 ---

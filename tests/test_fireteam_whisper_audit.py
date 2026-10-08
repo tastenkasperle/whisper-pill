@@ -69,7 +69,7 @@ def test_attack_vector_2_audio_poisoning_and_dos():
 
     # 3. RAM Exhaustion Flooding (Simuliere 1-stündige Daueraufnahme = 57.600.000 Samples)
     print("  💥 Simuliere RAM Exhaustion Attack (1 Stunde Endlos-Audio)...")
-    huge_sample_count = 16000 * 300  # 300 Sekunden
+    huge_sample_count = 16000 * 1200  # 1200 Sekunden (20 Min > 15 Min Cap)
     dummy_massive = np.zeros(huge_sample_count, dtype=np.float32)
     bounded = SecurityGuard.sanitize_audio_buffer(dummy_massive, sample_rate=16000)
 
