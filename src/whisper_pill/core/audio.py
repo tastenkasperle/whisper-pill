@@ -7,6 +7,7 @@ Streams directly into 16 kHz float32 NumPy arrays without temporary files.
 
 from __future__ import annotations
 import threading
+import time
 from typing import Optional, List
 import numpy as np
 import sounddevice as sd
@@ -55,6 +56,8 @@ class AudioRecorder:
             callback=self._audio_callback
         )
         self._stream.start()
+        now_str = time.strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{now_str}] [DEBUG AUDIO] Aufnahme gestartet...")
 
     def stop(self) -> np.ndarray:
         """
@@ -71,10 +74,14 @@ class AudioRecorder:
                 self._stream = None
 
         with self._lock:
+            now_str = time.strftime("%Y-%m-%d %H:%M:%S")
+            frames_count = len(self._frames)
             if not self._frames:
+                print(f"[{now_str}] [DEBUG AUDIO] Keine Frames aufgenommen (0 Frames)!")
                 return np.array([], dtype=np.float32)
             audio = np.concatenate(self._frames, axis=0).flatten()
             self._frames.clear()
+            print(f"[{now_str}] [DEBUG AUDIO] Aufnahme gestoppt. Frames: {frames_count}, Samples: {len(audio)}, Dauer: {len(audio)/self.sample_rate:.2f}s, Max-Amp: {np.max(np.abs(audio)):.4f}")
             return audio
 
     def get_duration_seconds(self, audio_data: np.ndarray) -> float:

@@ -36,7 +36,8 @@ class SecurityGuard:
         "Systran/faster-whisper-small",
         "Systran/faster-whisper-medium",
         "Systran/faster-whisper-large-v3",
-        "deepdml/faster-whisper-large-v3-turbo-ct2"
+        "deepdml/faster-whisper-large-v3-turbo-ct2",
+        "TheTobyB/whisper-large-v3-turbo-german-ct2"
     }
 
     # Maximum audio recording duration (in seconds) to prevent RAM exhaustion (DoS)
@@ -106,8 +107,13 @@ class SecurityGuard:
             # Retain only up to max_samples
             audio_data = audio_data[:max_samples]
 
-        # 3. Audio Amplitude Clamping (-1.0 to 1.0)
-        audio_data = np.clip(audio_data, -1.0, 1.0)
+        # 3. Audio Amplitude Clamping & Peak Normalization
+        # Prevents VAD speech-dropout when audio hits 1.0000 (Clipping/Loud burst)
+        max_val = np.max(np.abs(audio_data))
+        if max_val > 0.95:
+            audio_data = (audio_data / max_val) * 0.85
+        else:
+            audio_data = np.clip(audio_data, -1.0, 1.0)
 
         return audio_data.astype(np.float32)
 

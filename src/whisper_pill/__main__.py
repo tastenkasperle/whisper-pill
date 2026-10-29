@@ -30,7 +30,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Whisper Pill Pro 2.0 - Fast Local STT HUD")
     parser.add_argument("--config", "-c", default="config.json", help="Path to custom config.json")
     parser.add_argument("--threads", "-t", type=int, default=None, help="Override CPU inference threads")
-    parser.add_argument("--model", "-m", choices=["Very Low", "Low", "Medium", "High"], default=None, help="Initial model tier")
+    parser.add_argument("--model", "-m", choices=["German Turbo", "High", "Medium", "Low", "Very Low"], default=None, help="Initial model tier")
     parser.add_argument("--no-sound", action="store_true", help="Disable acoustic chime feedback")
     return parser.parse_args()
 

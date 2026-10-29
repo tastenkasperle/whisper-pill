@@ -243,6 +243,7 @@ class WhisperOverlayApp:
     def stop_capture_and_process(self) -> None:
         self.is_transcribing = True
         self.sounds.play("stop")
+        self.sounds.start_processing_loop()
         
         self.current_quip = random.choice(self.config.quips)
         self.last_quip_time = time.time()
@@ -272,7 +273,14 @@ class WhisperOverlayApp:
     def _process_worker(self, audio_data) -> None:
         try:
             res = self.engine.transcribe(audio_data, sample_rate=self.audio.sample_rate)
+            now_str = time.strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[{now_str}] [DEBUG INFERENZ] Erkannt: {repr(res.text)} (Länge: {len(res.text)})")
+            
+            # Stoppe den Hintergrund-Ticker sofort, bevor das Erfolgs-Signal ertönt
+            self.sounds.stop_processing_loop()
+            
             if res.text:
+                print(f"[{now_str}] [DEBUG INJECT] Sende an TextInjector: {repr(res.text)}")
                 TextInjector.paste_text(res.text, target_hwnd=self.target_hwnd)
                 self.sounds.play("success")
                 
@@ -281,6 +289,7 @@ class WhisperOverlayApp:
                 fg=CatppuccinMocha.GREEN
             ))
         except Exception as e:
+            self.sounds.stop_processing_loop()
             self.root.after(0, lambda: self.status_label.config(text=f"Fehler: {e}", fg=CatppuccinMocha.RED))
         finally:
             self.is_transcribing = False

@@ -16,6 +16,7 @@ from faster_whisper import WhisperModel
 from whisper_pill.core.config import AppConfig
 from whisper_pill.core.hardware import detect_optimal_hardware
 from whisper_pill.core.guard import SecurityGuard
+from whisper_pill.core.normalizer import TextNormalizer
 
 
 @dataclass(frozen=True)
@@ -90,8 +91,8 @@ class WhisperEngine:
             temperature=0.0,
             vad_filter=self.config.vad_filter,
             vad_parameters=dict(
-                min_silence_duration_ms=800,
-                speech_pad_ms=500
+                min_silence_duration_ms=1000,
+                speech_pad_ms=400
             ) if self.config.vad_filter else None,
             repetition_penalty=1.1,
             no_repeat_ngram_size=3,
@@ -100,7 +101,10 @@ class WhisperEngine:
             compression_ratio_threshold=2.4
         )
 
-        full_text = " ".join([seg.text.strip() for seg in segments]).strip()
+        raw_text = " ".join([seg.text.strip() for seg in segments]).strip()
+        now_str = time.strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{now_str}] [DEBUG ENGINE] Audio: {audio_len_sec}s | Raw: {repr(raw_text)}")
+        full_text = TextNormalizer.normalize(raw_text)
         t_elapsed = round(time.perf_counter() - t_start, 2)
         rtf = round(audio_len_sec / max(t_elapsed, 0.01), 1)
 

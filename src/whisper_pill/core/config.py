@@ -13,6 +13,7 @@ from typing import Dict, List
 
 
 MODEL_PRESETS: Dict[str, str] = {
+    "German Turbo": "TheTobyB/whisper-large-v3-turbo-german-ct2",
     "High": "large-v3-turbo",
     "Medium": "medium",
     "Low": "small",
@@ -42,11 +43,13 @@ class AppConfig:
     sound_enabled: bool = True
     cpu_threads_override: int | None = None
     language: str = "de"
-    beam_size: int = 5
+    beam_size: int = 1
     vad_filter: bool = True
     repetition_penalty: float = 1.0
     no_repeat_ngram_size: int = 0
-    initial_prompt: str = "Dies ist eine saubere, hochpräzise deutsche Transkription in vollständigen Sätzen mit korrekter Zeichensetzung, Rechtschreibung und Grammatik."
+    initial_prompt: str = (
+        "Dies ist eine hochpräzise deutsche Transkription in vollständigen Sätzen mit korrekter Zeichensetzung und Grammatik."
+    )
     window_x: int | None = None
     window_y: int = 30
     quips: List[str] = field(default_factory=lambda: list(DEFAULT_QUIPS))
